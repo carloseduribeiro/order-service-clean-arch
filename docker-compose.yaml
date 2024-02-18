@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  mysql:
+    container_name: mysql
+    image: mysql:8.3
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: orders
+      MYSQL_PASSWORD: root
+    ports:
+      - "3306:3306"
+
+  adminer:
+    image: adminer:4
+    restart: always
+    environment:
+      - ADMINER_DESIGN=dracula
+    ports:
+      - "8081:8080"
+
+  rabbitmq:
+    image: rabbitmq:3.8.16-management
+    container_name: rabbitmq
+    hostname: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+      - "15692:15692"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
