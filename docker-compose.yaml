@@ -9,6 +9,8 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: orders
       MYSQL_PASSWORD: root
+    volumes:
+      - ./script/sql/db.sql:/docker-entrypoint-initdb.d/db.sql
     ports:
       - "3306:3306"
 
@@ -31,3 +33,4 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: guest
       RABBITMQ_DEFAULT_PASS: guest
+#      RABBITMQ_DEFAULT_VHOST: /:
