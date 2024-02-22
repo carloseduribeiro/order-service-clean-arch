@@ -4,10 +4,9 @@ import (
 	"database/sql"
 	"testing"
 
-	"github.com/carloseduribeiro/order-service-clean-arch/internal/entity"
+	"github.com/carloseduribeiro/order-service-clean-arch/internal/domain/entity"
 	"github.com/stretchr/testify/suite"
 
-	// sqlite3
 	_ "github.com/mattn/go-sqlite3"
 )
 

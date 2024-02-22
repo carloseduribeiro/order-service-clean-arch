@@ -5,14 +5,14 @@ package main
 
 import (
 	"database/sql"
+	"github.com/google/wire"
 
-	"github.com/carloseduribeiro/order-service-clean-arch/internal/entity"
-	"github.com/carloseduribeiro/order-service-clean-arch/internal/event"
+	"github.com/carloseduribeiro/order-service-clean-arch/internal/application/usecase"
+	"github.com/carloseduribeiro/order-service-clean-arch/internal/domain/entity"
+	"github.com/carloseduribeiro/order-service-clean-arch/internal/domain/event"
 	"github.com/carloseduribeiro/order-service-clean-arch/internal/infra/database"
 	"github.com/carloseduribeiro/order-service-clean-arch/internal/infra/web"
-	"github.com/carloseduribeiro/order-service-clean-arch/internal/usecase"
 	"github.com/carloseduribeiro/order-service-clean-arch/pkg/events"
-	"github.com/google/wire"
 )
 
 var setOrderRepositoryDependency = wire.NewSet(

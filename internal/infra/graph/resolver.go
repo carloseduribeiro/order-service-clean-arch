@@ -1,6 +1,6 @@
 package graph
 
-import "github.com/carloseduribeiro/order-service-clean-arch/internal/usecase"
+import "github.com/carloseduribeiro/order-service-clean-arch/internal/application/usecase"
 
 // This file will not be regenerated automatically.
 //

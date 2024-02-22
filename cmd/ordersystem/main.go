@@ -9,7 +9,7 @@ import (
 	graphqlhandler "github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/carloseduribeiro/order-service-clean-arch/configs"
-	"github.com/carloseduribeiro/order-service-clean-arch/internal/event/handler"
+	"github.com/carloseduribeiro/order-service-clean-arch/internal/domain/event/handler"
 	"github.com/carloseduribeiro/order-service-clean-arch/internal/infra/graph"
 	"github.com/carloseduribeiro/order-service-clean-arch/internal/infra/grpc/pb"
 	"github.com/carloseduribeiro/order-service-clean-arch/internal/infra/grpc/service"

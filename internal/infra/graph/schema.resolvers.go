@@ -7,8 +7,8 @@ package graph
 import (
 	"context"
 
+	"github.com/carloseduribeiro/order-service-clean-arch/internal/application/usecase"
 	"github.com/carloseduribeiro/order-service-clean-arch/internal/infra/graph/model"
-	"github.com/carloseduribeiro/order-service-clean-arch/internal/usecase"
 )
 
 // CreateOrder is the resolver for the createOrder field.

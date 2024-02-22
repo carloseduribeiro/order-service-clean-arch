@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/carloseduribeiro/order-service-clean-arch/internal/entity"
-	"github.com/carloseduribeiro/order-service-clean-arch/internal/usecase"
+	"github.com/carloseduribeiro/order-service-clean-arch/internal/application/usecase"
+	"github.com/carloseduribeiro/order-service-clean-arch/internal/domain/entity"
 	"github.com/carloseduribeiro/order-service-clean-arch/pkg/events"
 )
 
