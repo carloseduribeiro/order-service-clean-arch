@@ -5,13 +5,13 @@ import (
 	"github.com/carloseduribeiro/order-service-clean-arch/pkg/events"
 )
 
-type OrderInputDTO struct {
+type OrderInputDto struct {
 	ID    string  `json:"id"`
 	Price float64 `json:"price"`
 	Tax   float64 `json:"tax"`
 }
 
-type OrderOutputDTO struct {
+type OrderOutputDto struct {
 	ID         string  `json:"id"`
 	Price      float64 `json:"price"`
 	Tax        float64 `json:"tax"`
@@ -36,7 +36,7 @@ func NewCreateOrderUseCase(
 	}
 }
 
-func (c *CreateOrderUseCase) Execute(input OrderInputDTO) (OrderOutputDTO, error) {
+func (c *CreateOrderUseCase) Execute(input OrderInputDto) (OrderOutputDto, error) {
 	order := entity.Order{
 		ID:    input.ID,
 		Price: input.Price,
@@ -44,10 +44,10 @@ func (c *CreateOrderUseCase) Execute(input OrderInputDTO) (OrderOutputDTO, error
 	}
 	order.CalculateFinalPrice()
 	if err := c.OrderRepository.Save(&order); err != nil {
-		return OrderOutputDTO{}, err
+		return OrderOutputDto{}, err
 	}
 
-	dto := OrderOutputDTO{
+	dto := OrderOutputDto{
 		ID:         order.ID,
 		Price:      order.Price,
 		Tax:        order.Tax,
