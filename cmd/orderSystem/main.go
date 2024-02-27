@@ -3,11 +3,16 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"io"
 	"net"
 	"net/http"
 
 	graphqlhandler "github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
+	"github.com/streadway/amqp"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
+
 	"github.com/carloseduribeiro/order-service-clean-arch/configs"
 	"github.com/carloseduribeiro/order-service-clean-arch/internal/domain/event/handler"
 	"github.com/carloseduribeiro/order-service-clean-arch/internal/infra/graph"
@@ -15,9 +20,6 @@ import (
 	"github.com/carloseduribeiro/order-service-clean-arch/internal/infra/grpc/service"
 	"github.com/carloseduribeiro/order-service-clean-arch/internal/infra/web/webserver"
 	"github.com/carloseduribeiro/order-service-clean-arch/pkg/events"
-	"github.com/streadway/amqp"
-	"google.golang.org/grpc"
-	"google.golang.org/grpc/reflection"
 
 	// mysql
 	_ "github.com/go-sql-driver/mysql"
@@ -30,30 +32,28 @@ func main() {
 	}
 	dataSourceName := fmt.Sprintf(
 		"%s:%s@tcp(%s:%s)/%s",
-		config.DBUser,
-		config.DBPassword,
-		config.DBHost,
-		config.DBPort,
-		config.DBName,
+		config.DBUser, config.DBPassword, config.DBHost, config.DBPort, config.DBName,
 	)
 	db, err := sql.Open(config.DBDriver, dataSourceName)
 	if err != nil {
 		panic(err)
 	}
-	defer db.Close()
+	defer closeWithPanic(db)
 
 	rabbitMQChannel := getRabbitMQChannel()
-
 	eventDispatcher := events.NewEventDispatcher()
-	eventDispatcher.Register("OrderCreated", &handler.OrderCreatedHandler{
-		RabbitMQChannel: rabbitMQChannel,
-	})
+	err = eventDispatcher.Register("OrderCreated", &handler.OrderCreatedHandler{RabbitMQChannel: rabbitMQChannel})
+	if err != nil {
+		panic(err)
+	}
 
 	createOrderUseCase := NewCreateOrderUseCase(db, eventDispatcher)
 
 	webServer := webserver.NewWebServer(config.WebServerPort)
-	webOrderHandler := NewWebOrderHandler(db, eventDispatcher)
-	webServer.AddHandler("/order", webOrderHandler.Create)
+	createOrderHttpHandler := NewWebOrderHandler(db, eventDispatcher)
+	if err = webServer.AddHandler(http.MethodPost, "/order", createOrderHttpHandler.Create); err != nil {
+		panic(err)
+	}
 	fmt.Println("Starting web server on port", config.WebServerPort)
 	go webServer.Start()
 
@@ -89,4 +89,13 @@ func getRabbitMQChannel() *amqp.Channel {
 		panic(err)
 	}
 	return ch
+}
+
+func closeWithPanic(c io.Closer) {
+	if c == nil {
+		panic("Closer is nil")
+	}
+	if err := c.Close(); err != nil {
+		panic(err)
+	}
 }

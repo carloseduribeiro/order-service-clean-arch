@@ -10,7 +10,7 @@ services:
       MYSQL_DATABASE: orders
       MYSQL_PASSWORD: root
     volumes:
-      - ./migrations/migrations/db.migrations:/docker-entrypoint-initdb.d/db.migrations
+      - ./sql/migrations/db.sql:/docker-entrypoint-initdb.d/db.sql
     ports:
       - "3306:3306"
 
