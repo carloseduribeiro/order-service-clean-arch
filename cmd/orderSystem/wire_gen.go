@@ -37,6 +37,12 @@ func initializeCreateOrderHttpHandler(db *sql.DB, eventDispatcher events.EventDi
 	return createOrderHttpHandler
 }
 
+func initializeListOrderHttpHandler(db *sql.DB) *web.ListOrdersHandler {
+	orderRepository := database.NewOrderRepository(db)
+	listOrdersHandler := web.NewListOrdersHandler(orderRepository)
+	return listOrdersHandler
+}
+
 // wire.go:
 
 var setOrderRepositoryDependency = wire.NewSet(database.NewOrderRepository, wire.Bind(new(entity.OrderRepositoryInterface), new(*database.OrderRepository)))

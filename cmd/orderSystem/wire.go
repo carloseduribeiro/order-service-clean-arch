@@ -53,3 +53,8 @@ func initializeCreateOrderHttpHandler(
 	)
 	return &web.CreateOrderHttpHandler{}
 }
+
+func initializeListOrderHttpHandler(db *sql.DB) *web.ListOrdersHandler {
+	wire.Build(setOrderRepositoryDependency, web.NewListOrdersHandler)
+	return &web.ListOrdersHandler{}
+}

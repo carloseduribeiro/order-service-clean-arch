@@ -13,6 +13,8 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 
+	_ "github.com/go-sql-driver/mysql"
+
 	"github.com/carloseduribeiro/order-service-clean-arch/configs"
 	"github.com/carloseduribeiro/order-service-clean-arch/internal/domain/event/handler"
 	"github.com/carloseduribeiro/order-service-clean-arch/internal/infra/graph"
@@ -20,9 +22,6 @@ import (
 	"github.com/carloseduribeiro/order-service-clean-arch/internal/infra/grpc/service"
 	"github.com/carloseduribeiro/order-service-clean-arch/internal/infra/web/webserver"
 	"github.com/carloseduribeiro/order-service-clean-arch/pkg/events"
-
-	// mysql
-	_ "github.com/go-sql-driver/mysql"
 )
 
 func main() {
@@ -47,20 +46,20 @@ func main() {
 		panic(err)
 	}
 
-	createOrderUseCase := initializeCreateOrderUseCase(db, eventDispatcher)
-
 	webServer := webserver.NewWebServer(config.WebServerPort)
 	createOrderHttpHandler := initializeCreateOrderHttpHandler(db, eventDispatcher)
 	if err = webServer.AddHandler(http.MethodPost, "/order", createOrderHttpHandler.Create); err != nil {
 		panic(err)
 	}
-	if err = webServer.AddHandler(http.MethodGet, "/order", createOrderHttpHandler.Create); err != nil {
+	listOrdersHttpHandler := initializeListOrderHttpHandler(db)
+	if err = webServer.AddHandler(http.MethodGet, "/order", listOrdersHttpHandler.List); err != nil {
 		panic(err)
 	}
 	fmt.Println("Starting web server on port", config.WebServerPort)
 	go webServer.Start()
 
 	grpcServer := grpc.NewServer()
+	createOrderUseCase := initializeCreateOrderUseCase(db, eventDispatcher)
 	createOrderService := service.NewOrderService(*createOrderUseCase)
 	pb.RegisterOrderServiceServer(grpcServer, createOrderService)
 	reflection.Register(grpcServer)
