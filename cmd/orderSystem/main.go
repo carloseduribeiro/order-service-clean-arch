@@ -47,11 +47,14 @@ func main() {
 		panic(err)
 	}
 
-	createOrderUseCase := NewCreateOrderUseCase(db, eventDispatcher)
+	createOrderUseCase := initializeCreateOrderUseCase(db, eventDispatcher)
 
 	webServer := webserver.NewWebServer(config.WebServerPort)
-	createOrderHttpHandler := NewWebOrderHandler(db, eventDispatcher)
+	createOrderHttpHandler := initializeCreateOrderHttpHandler(db, eventDispatcher)
 	if err = webServer.AddHandler(http.MethodPost, "/order", createOrderHttpHandler.Create); err != nil {
+		panic(err)
+	}
+	if err = webServer.AddHandler(http.MethodGet, "/order", createOrderHttpHandler.Create); err != nil {
 		panic(err)
 	}
 	fmt.Println("Starting web server on port", config.WebServerPort)
