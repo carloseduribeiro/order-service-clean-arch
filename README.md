@@ -16,6 +16,15 @@ cd cmd/orderSystem && go run main.go wire_gen.go
 
 ## At this project
 
+### HTTP Server
+
+### gRPC
+
+We are using [gRPC-go](https://pkg.go.dev/google.golang.org/grpc) implementation of [gRPC](https://grpc.io/) for
+communication by RPC with [Protocol Buffers 3](https://protobuf.dev/programming-guides/proto3/).
+
+### GraphQL
+
 ### google-wire
 
 We are using the [dependency injection](https://stackoverflow.com/questions/130794/what-is-dependency-injection) design

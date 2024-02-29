@@ -32,7 +32,7 @@ criar sistemas mais manuteníveis, testáveis e flexíveis. Sendo eles:
 Abaixo segue um esquema indicando a direção onde cada camada deve seguir. Observer as setas indicando que as
 dependências são chamadas sempre de fora para dentro do círculo, e nunca o contrário:
 
-![Clean Architecture](./assets/CleanArchitecture.jpg)
+![Clean Architecture](CleanArchitecture.jpg)
 
 Leia mais: [The Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html).
 
