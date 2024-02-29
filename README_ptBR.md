@@ -14,7 +14,7 @@ order-service-clean-arch uma aplicação desenvolvida utilizando os princípios 
 Architecture). Ela expõe três serviços Web:
 
 * **HTTP Server**: porta ```80```
-* **gRPC**: porta ```9090```
+* **gRPC**: porta ```50051```
 * **graphQL**: porta ``4000``
 
 ## Endpoints

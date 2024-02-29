@@ -23,6 +23,16 @@ cd cmd/orderSystem && go run main.go wire_gen.go
 We are using [gRPC-go](https://pkg.go.dev/google.golang.org/grpc) implementation of [gRPC](https://grpc.io/) for
 communication by RPC with [Protocol Buffers 3](https://protobuf.dev/programming-guides/proto3/).
 
+You can use the [Protocol Buffer Compiler](https://grpc.io/docs/protoc-installation/) to parse and compile
+the ```.proto``` file, witch contain service and message definitions. See
+gRPC [Quick Start](https://grpc.io/docs/languages/go/quickstart/#prerequisites) guide for more information.
+
+Parsing and compiling ```.proto``` file:
+
+```shell
+protoc --go_out=. --go-grpc_out=. internal/infra/grpc/protofiles/order.proto
+```
+
 ### GraphQL
 
 ### google-wire

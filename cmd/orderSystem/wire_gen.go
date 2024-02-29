@@ -37,6 +37,12 @@ func initializeCreateOrderHttpHandler(db *sql.DB, eventDispatcher events.EventDi
 	return createOrderHttpHandler
 }
 
+func initializeListOrdersUseCase(sb *sql.DB) *usecase.ListOrdersUseCase {
+	orderRepository := database.NewOrderRepository(sb)
+	listOrdersUseCase := usecase.NewListOrdersUseCase(orderRepository)
+	return listOrdersUseCase
+}
+
 func initializeListOrderHttpHandler(db *sql.DB) *web.ListOrdersHandler {
 	orderRepository := database.NewOrderRepository(db)
 	listOrdersHandler := web.NewListOrdersHandler(orderRepository)

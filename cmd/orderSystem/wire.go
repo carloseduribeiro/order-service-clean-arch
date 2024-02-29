@@ -54,6 +54,11 @@ func initializeCreateOrderHttpHandler(
 	return &web.CreateOrderHttpHandler{}
 }
 
+func initializeListOrdersUseCase(sb *sql.DB) *usecase.ListOrdersUseCase {
+	wire.Build(setOrderRepositoryDependency, usecase.NewListOrdersUseCase)
+	return &usecase.ListOrdersUseCase{}
+}
+
 func initializeListOrderHttpHandler(db *sql.DB) *web.ListOrdersHandler {
 	wire.Build(setOrderRepositoryDependency, web.NewListOrdersHandler)
 	return &web.ListOrdersHandler{}
