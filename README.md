@@ -14,9 +14,23 @@ docker compose up -d
 cd cmd/orderSystem && go run main.go wire_gen.go
 ```
 
-## At this project
+## Description
+
+order-service-clean-arch is a simple application that was developed using the Clean Architecture principles. It provides
+three services:
+
+* **HTTP Server**: porta ```80```
+* **gRPC**: porta ```50051```
+* **graphQL**: porta ``4000``
 
 ### HTTP Server
+
+It has two resources at an endpoint:
+
+1. Create order: ```POST /order```;
+2. List order: ```GET /order```.
+
+Both resources are defined on [api](./api) folder at root path of the project.
 
 ### gRPC
 
@@ -27,11 +41,14 @@ You can use the [Protocol Buffer Compiler](https://grpc.io/docs/protoc-installat
 the ```.proto``` file, witch contain service and message definitions. See
 gRPC [Quick Start](https://grpc.io/docs/languages/go/quickstart/#prerequisites) guide for more information.
 
-Parsing and compiling ```.proto``` file:
+If you want to change this project, you can parse and compiling the ```.proto``` file with the following command:
 
 ```shell
 protoc --go_out=. --go-grpc_out=. internal/infra/grpc/protofiles/order.proto
 ```
+
+You can use **[Evans gRPC Client](https://github.com/ktr0731/evans)** to make RPCs. It lists the services provided by
+our gRPC server friendly.
 
 ### GraphQL
 
