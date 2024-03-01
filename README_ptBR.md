@@ -44,6 +44,8 @@ protoc --go_out=. --go-grpc_out=. internal/infra/grpc/protofiles/order.proto
 Você pode instalar o **[Evans gRPC Client](https://github.com/ktr0731/evans)** para realizar as RPCs. Ele lista os
 serviços disponibilizados pelo nosso servidor gRPC de forma amigável.
 
+### GraphQL
+
 ## Configuração
 
 ## Construção e Execução
