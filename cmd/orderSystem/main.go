@@ -3,13 +3,13 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"github.com/carloseduribeiro/order-service-clean-arch/internal/infra/rabbitmq"
 	"io"
 	"net"
 	"net/http"
 
 	graphqlhandler "github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
-	"github.com/streadway/amqp"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 
@@ -39,7 +39,16 @@ func main() {
 	}
 	defer closeWithPanic(db)
 
-	rabbitMQChannel := getRabbitMQChannel()
+	rabbitMQChannel, err := rabbitmq.Channel(
+		config.RabbitMQUserName,
+		config.RabbitMQUserPassword,
+		config.RabbitMQServerHost,
+		config.RabbitMQServerPort,
+	)
+	if err != nil {
+		panic(err)
+	}
+
 	eventDispatcher := events.NewEventDispatcher()
 	err = eventDispatcher.Register("OrderCreated", &handler.OrderCreatedHandler{RabbitMQChannel: rabbitMQChannel})
 	if err != nil {
@@ -81,18 +90,6 @@ func main() {
 
 	fmt.Println("Starting GraphQL server on port", config.GraphQLServerPort)
 	http.ListenAndServe(":"+config.GraphQLServerPort, nil)
-}
-
-func getRabbitMQChannel() *amqp.Channel {
-	conn, err := amqp.Dial("amqp://guest:guest@localhost:5672/")
-	if err != nil {
-		panic(err)
-	}
-	ch, err := conn.Channel()
-	if err != nil {
-		panic(err)
-	}
-	return ch
 }
 
 func closeWithPanic(c io.Closer) {

@@ -1,0 +1,8 @@
+api
+assets
+sql
+.gitignore
+docker-compose.yaml
+Dockerfile
+gqlgen.yaml
+README*
