@@ -11,7 +11,7 @@ services:
     depends_on:
       rabbitmq:
         condition: service_healthy
-      mysql:
+      db:
         condition: service_healthy
     ports:
       - "80:80"
@@ -20,8 +20,7 @@ services:
     networks:
       - order-service
 
-
-  mysql:
+  db:
     container_name: mysql
     image: mysql:8.3
     restart: always
