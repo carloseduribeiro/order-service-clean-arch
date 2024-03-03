@@ -1,23 +1,17 @@
 # order-service-clean-arch
 
-* **Portuguese Version: [README_ptBR.md](README_ptBR.md)**
+- **English Version: [README.md](README_enUS)**
 
-This repository contains a project developed during the Clean Architecture module of the GoExpert course by FullCycle.
+Este repositório contém um projeto desenvolvido durante o módulo Clean Architecture do curso GoExpert da FullCycle.
 
-## How to Execute de project
+No arquivo [CleanArchitectureReviewGuide_ptBR.md](./assets/CleanArchitectureReviewGuide_ptBR), consta um resumo foi
+feito para revisar os conceitos da Clean Architecture. Ele abrange os assuntos abordados no curso com mais informações
+que julguei ser necessário adicionar.
 
-```shell
-# Run the database and RabbitMQ server in docker:
-docker compose up -d
+## Descrição
 
-# Run the application:
-cd cmd/orderSystem && go run main.go wire_gen.go
-```
-
-## Description
-
-order-service-clean-arch is a simple application that was developed using the Clean Architecture principles. It provides
-three services:
+order-service-clean-arch uma aplicação desenvolvida utilizando os princípios de design da Arquitura Limpa (Clean
+Architecture). Ela expõe três serviços Web:
 
 * **HTTP Server**: porta ```80```
 * **gRPC**: porta ```50051```
@@ -25,42 +19,59 @@ three services:
 
 ### HTTP Server
 
-It has two resources at an endpoint:
+A aplicação possui dois endpoints:
 
-1. Create order: ```POST /order```;
-2. List order: ```GET /order```.
+1. Criação de um novo pedido: ```POST /order```;
+2. Listagem de pedidos: ```GET /order```.
 
-Both resources are defined on [api](./api) folder at root path of the project.
+Ambas as chamadas estão definidas na pasta [api](./api) na raiz do projeto.
 
 ### gRPC
 
-We are using [gRPC-go](https://pkg.go.dev/google.golang.org/grpc) implementation of [gRPC](https://grpc.io/) for
-communication by RPC with [Protocol Buffers 3](https://protobuf.dev/programming-guides/proto3/).
+Nós estamos utilizando a implementação [gRPC-go](https://pkg.go.dev/google.golang.org/grpc) do [gRPC](https://grpc.io/)
+comunicação via RPC com [Protocol Buffers 3](https://protobuf.dev/programming-guides/proto3/).
 
-You can use the [Protocol Buffer Compiler](https://grpc.io/docs/protoc-installation/) to parse and compile
-the ```.proto``` file, witch contain service and message definitions. See
-gRPC [Quick Start](https://grpc.io/docs/languages/go/quickstart/#prerequisites) guide for more information.
+Você pode utilizar o [Protocol Buffer Compiler](https://grpc.io/docs/protoc-installation/) para analisar e compilar o
+arquivo ```.proto```, que contém as definições dos serviços e mensagens. Veja
+o [Quick Start](https://grpc.io/docs/languages/go/quickstart/#prerequisites) guide para mais informações.
 
-If you want to change this project, you can parse and compiling the ```.proto``` file with the following command:
+Se você quiser fazer alterações no projeto, você pode compilar o arquivo ```.proto``` com o seguinte comando:
 
 ```shell
 protoc --go_out=. --go-grpc_out=. internal/infra/grpc/protofiles/order.proto
 ```
 
-You can use **[Evans gRPC Client](https://github.com/ktr0731/evans)** to make RPCs. It lists the services provided by
-our gRPC server friendly.
+Você pode instalar o **[Evans gRPC Client](https://github.com/ktr0731/evans)** para realizar as RPCs. Ele lista os
+serviços disponibilizados pelo nosso servidor gRPC de forma amigável.
 
 ### GraphQL
 
-### google-wire
+## Configuração
 
-We are using the [dependency injection](https://stackoverflow.com/questions/130794/what-is-dependency-injection) design
-principle. In practice, that means we pass in whatever each component needs. This style of design lends itself to
-writing easily tested code and makes it easy to swap out one dependency with another.
+O arquivo ```cmd/orderSystem/.env``` contém as declarações das variáveis de ambiente para configurar os recursos da
+aplicação.
 
-One downside to dependency injection is the need for so many initialization steps. Wire make's the process of
-initializing our components smoother.
+Esta aplicação utiliza o [Viper](https://github.com/spf13/viper) para carregar essas configurações. Você pode definir o
+valor das variáveis de ambiente tando no arquivo ```.env``` mencionado acima ou se preferir, declara as variáveis no
+sistema operacional.
 
-See Wire's docs: https://github.com/google/wire/tree/main
+## Construção e Execução
 
-The file ```cmd/orderSystem/wire.go``` contains the initializer definitions to generate Wire's code.
+Execute o comando abaixo para subir as dependências e executar a aplicação:
+
+```shell
+make docker-up
+```
+
+Isso irá iniciar o RabbitMQ, o MySQL e uma instância da nossa aplicação em containers Docker.
+
+### Outros commandos
+
+Para construir a imagem da aplicação, utilize:
+
+```shell
+make docker-build-image
+```
+
+Isso vai fazer o build de uma imgaem com o nome: ```carloseduribeiro/order-service-clean-arch:latest```
+
