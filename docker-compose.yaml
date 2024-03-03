@@ -8,6 +8,9 @@ services:
   app:
     container_name: order-service
     build: .
+    environment:
+      DB_HOST: db
+      RABBITMQ_SERVER_HOST: rabbitmq
     depends_on:
       rabbitmq:
         condition: service_healthy
