@@ -63,7 +63,12 @@ Execute o comando abaixo para subir as dependências e executar a aplicação:
 make docker-up
 ```
 
-Isso irá iniciar o RabbitMQ, o MySQL e uma instância da nossa aplicação em containers Docker.
+Isso irá iniciar o RabbitMQ, o MySQL e uma instância da nossa aplicação em containers Docker com a seguinte
+configuração:
+
+* **HTTP Server**: porta ```80```
+* **gRPC**: porta ```50051```
+* **graphQL**: porta ``4000``
 
 ### Outros commandos
 
