@@ -17,9 +17,9 @@ services:
       db:
         condition: service_healthy
     ports:
-      - "80:80"
+      - "8001:8001"
       - "50051:50051"
-      - "4000:4000"
+      - "8080:8080"
     networks:
       - order-service
 

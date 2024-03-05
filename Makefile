@@ -3,3 +3,8 @@ docker-build-image:
 
 docker-up:
 	docker-compose up -d
+
+docker-rebuild-up:
+	docker compose down
+	docker compose build
+	docker compose up -d

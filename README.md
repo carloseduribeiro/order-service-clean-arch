@@ -13,9 +13,9 @@ que julguei ser necessário adicionar.
 order-service-clean-arch uma aplicação desenvolvida utilizando os princípios de design da Arquitura Limpa (Clean
 Architecture). Ela expõe três serviços Web:
 
-* **HTTP Server**: porta ```80```
+* **HTTP Server**: porta ```8001```
 * **gRPC**: porta ```50051```
-* **graphQL**: porta ``4000``
+* **graphQL**: porta ```8080```
 
 ### HTTP Server
 
@@ -66,9 +66,18 @@ make docker-up
 Isso irá iniciar o RabbitMQ, o MySQL e uma instância da nossa aplicação em containers Docker com a seguinte
 configuração:
 
-* **HTTP Server**: porta ```80```
+* **HTTP Server**: porta ```8001```
 * **gRPC**: porta ```50051```
-* **graphQL**: porta ``4000``
+* **graphQL**: porta ```8080```
+
+Para mudar essas configurações basta editar no arquivo ```cmd/orderSystem/.env``` e executar o comando abaixo:
+
+```shell
+make docker-rebuild-up
+```
+
+Esse comando vai excluir as instâncias e dependências da nossa aplicação que estão em execução (se existir), vai
+reconstruir a imagem e executá-las novamente em containers docker.
 
 ### Outros commandos
 
